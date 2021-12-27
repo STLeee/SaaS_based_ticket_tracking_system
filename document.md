@@ -1,5 +1,3 @@
-# Use Cases
-
 - [Use Cases](#use-cases)
   - [Phase I](#phase-i)
   - [Phase II](#phase-ii)
@@ -7,6 +5,8 @@
   - [System Diagram](#system-diagram)
   - [Data Flow Diagram](#data-flow-diagram)
   - [Sequence Diagram](#sequence-diagram)
+
+# Use Cases
 
 ## Phase I
 
