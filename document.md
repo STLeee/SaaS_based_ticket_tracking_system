@@ -18,3 +18,7 @@
 ## Data Flow Diagram
 
 ![Data flow diagram](./images/data_flow_diagram.png)
+
+## Sequence Diagram
+
+![Sequence diagram](./images/sequence_diagram.png)
