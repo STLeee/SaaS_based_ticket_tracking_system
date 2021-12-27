@@ -1,7 +1,5 @@
 # Use Cases
 
-  - [Phase I](#phase-i)
-  - [Phase II](#phase-ii)
 - [Use Cases](#use-cases)
   - [Phase I](#phase-i)
   - [Phase II](#phase-ii)
