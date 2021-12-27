@@ -2,15 +2,19 @@
 
 ## Phase I
 
-![Phase I use cases](./use_cases/phase_1.png)
+![Phase I use cases](./images/phase_1.png)
 
 ## Phase II
 
-![Phase II use cases](./use_cases/phase_2.png)
+![Phase II use cases](./images/phase_2.png)
 
 
 # Cloud System Architect - multiple micro-services
 
 ## System Diagram
 
-![System diagram](./use_cases/system_diagram.png)
+![System diagram](./images/system_diagram.png)
+
+## Data Flow Diagram
+
+![Data flow diagram](./images/data_flow_diagram.png)
