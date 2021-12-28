@@ -2,7 +2,6 @@
 
 ## Catalog
 
-  - [Catalog](#catalog)
   - [Task](#task)
     - [Description](#description)
     - [Requirement](#requirement)
