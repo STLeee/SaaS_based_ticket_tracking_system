@@ -5,41 +5,33 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 public class ResponseTransfer {
 
-    private boolean ok;
+    private int status;
 
     @JsonInclude(Include.NON_EMPTY)
     private Object result;
 
     @JsonInclude(Include.NON_EMPTY)
-    private Integer errorCode;
-
-    @JsonInclude(Include.NON_EMPTY)
-    private String description;
+    private String error;
 
     public ResponseTransfer(Object result) {
-        this.ok = true;
+        this.status = 200;
         this.result = result;
     }
 
-    public ResponseTransfer(Integer errorCode, String description) {
-        this.ok = false;
-        this.errorCode = errorCode;
-        this.description = description;
+    public ResponseTransfer(int status, String error) {
+        this.status = status;
+        this.error = error;
     }
 
-    public boolean getOk() {
-        return this.ok;
+    public int getStatus() {
+        return this.status;
     }
 
     public Object getResult() {
         return this.result;
     }
 
-    public Integer getErrorCode() {
-        return this.errorCode;
-    }
-
-    public String getDescription() {
-        return this.description;
+    public String getError() {
+        return this.error;
     }
 }
