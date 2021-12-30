@@ -23,11 +23,14 @@ public class BugController {
         return new ResponseTransfer(tickets);
     }
     
-    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseTransfer Get(@PathVariable("id") String id) {
         Optional<Ticket> ticketOptional = ticketRepository.findById(id);
         if (ticketOptional.isPresent()) {
-            return new ResponseTransfer(ticketOptional.get());
+            Ticket ticket = ticketOptional.get();
+            if (ticket.getType() == Ticket.Type.Bug) {
+                return new ResponseTransfer(ticket);
+            }
         }
         return new ResponseTransfer(404, "bug " + id + " not found");
     }
@@ -42,13 +45,36 @@ public class BugController {
         return new ResponseTransfer(403, "forbidden");
     }
     
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseTransfer Put() {
-        return new ResponseTransfer(-1, "unknown");
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseTransfer Put(@RequestHeader("Authorization") String idToken, @PathVariable("id") String id, @RequestBody Ticket newTicket) {
+        String stuffType = idToken.split(" ")[1];
+        if (stuffType.compareTo("QA") == 0) {
+            Optional<Ticket> ticketOptional = ticketRepository.findById(id);
+            if (ticketOptional.isPresent()) {
+                Ticket ticket = ticketOptional.get();
+                if (ticket.getType() == Ticket.Type.Bug) {
+                    ticket.setSummary(newTicket.getSummary());
+                    ticket.setDescription(newTicket.getDescription());
+                    ticket = ticketRepository.save(ticket);
+                    return new ResponseTransfer(ticket);
+                }
+            }
+            return new ResponseTransfer(404, "bug " + id + " not found");
+        }
+        return new ResponseTransfer(403, "forbidden");
     }
     
-    @RequestMapping(method = RequestMethod.DELETE)
-    public ResponseTransfer DELETE() {
-        return new ResponseTransfer(-1, "unknown");
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseTransfer DELETE(@RequestHeader("Authorization") String idToken, @PathVariable("id") String id) {
+        String stuffType = idToken.split(" ")[1];
+        if (stuffType.compareTo("QA") == 0) {
+            Optional<Ticket> ticketOptional = ticketRepository.findById(id);
+            if (ticketOptional.isPresent()) {
+                ticketRepository.deleteById(id);
+                return new ResponseTransfer("delete bug success");
+            }
+            return new ResponseTransfer(404, "bug " + id + " not found");
+        }
+        return new ResponseTransfer(403, "forbidden");
     }
 }
