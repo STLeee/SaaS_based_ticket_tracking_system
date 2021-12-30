@@ -1,7 +1,5 @@
 package com.stleee.tts.ticket_service.model;
 
-import java.util.UUID;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,8 +20,8 @@ public class Ticket {
     private String summary;
     private String description;
 
-    public Ticket (Type type, String summary, String description) {
-        this.id = UUID.randomUUID().toString().replaceAll("-", "");
+    public Ticket (String id, Type type, String summary, String description) {
+        this.id = id;
         this.type = type;
         this.status = Status.Opened;
         this.summary = summary;
@@ -68,5 +66,9 @@ public class Ticket {
 
     public void setDescription (String description) {
         this.description = description;
+    }
+
+    public String toString() {
+        return String.format("%s [%s][%s] %s", this.id, this.type, this.status, this.summary);
     }
 }

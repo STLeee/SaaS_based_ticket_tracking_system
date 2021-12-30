@@ -1,7 +1,10 @@
 package com.stleee.tts.ticket_service;
 
 import com.stleee.tts.ticket_service.repository.TicketRepository;
-import com.stleee.tts.ticket_service.model.Bug;
+import com.stleee.tts.ticket_service.model.Ticket;
+
+import java.time.Instant;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -22,9 +25,15 @@ public class BugLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Bug creation started...");
-        ticketRepository.save(new Bug("bug1", "this is bug 1!"));
-        ticketRepository.save(new Bug("bug2", "this is bug 2!"));
-        System.out.println("Bug creation complete...");
+        // System.out.println("Bug creation started...");
+        // ticketRepository.save(new Ticket(Instant.now().toString(), Ticket.Type.Bug, "bug1", "this is bug 1!"));
+        // ticketRepository.save(new Ticket(Instant.now().toString(), Ticket.Type.Bug, "bug2", "this is bug 2!"));
+        // System.out.println("Bug creation complete...");
+        System.out.println("Bug search started...");
+        List<Ticket> tickets = ticketRepository.findByType(Ticket.Type.Bug);
+        for (Ticket ticket:tickets) {
+            System.out.println(ticket);
+        }
+        System.out.println("Bug search complete...");
     }
 }
