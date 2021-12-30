@@ -1,12 +1,13 @@
-package com.stleee.tts.backend;
+package com.stleee.tts.ticket_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BackendApplication {
+public class TicketServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BackendApplication.class, args);
+		SpringApplication.run(TicketServiceApplication.class, args);
 	}
+
 }
