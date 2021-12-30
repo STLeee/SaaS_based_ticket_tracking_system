@@ -28,11 +28,11 @@ public class Ticket {
         this.description = description;
     }
 
-    public String getSID () {
+    public String getID () {
         return this.id;
     }
 
-    public void setSID (String id) {
+    public void setID (String id) {
         this.id = id;
     }
 
