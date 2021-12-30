@@ -1,9 +1,19 @@
 package com.stleee.tts.ticket_service.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 public class ResponseTransfer {
+
     private boolean ok;
+
+    @JsonInclude(Include.NON_EMPTY)
     private Object result;
-    private int errorCode;
+
+    @JsonInclude(Include.NON_EMPTY)
+    private Integer errorCode;
+
+    @JsonInclude(Include.NON_EMPTY)
     private String description;
 
     public ResponseTransfer(Object result) {
@@ -11,7 +21,7 @@ public class ResponseTransfer {
         this.result = result;
     }
 
-    public ResponseTransfer(int errorCode, String description) {
+    public ResponseTransfer(Integer errorCode, String description) {
         this.ok = false;
         this.errorCode = errorCode;
         this.description = description;
@@ -25,7 +35,7 @@ public class ResponseTransfer {
         return this.result;
     }
 
-    public int getErrorCode() {
+    public Integer getErrorCode() {
         return this.errorCode;
     }
 
