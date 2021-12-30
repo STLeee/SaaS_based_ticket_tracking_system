@@ -69,6 +69,6 @@ public class Ticket {
     }
 
     public String toString() {
-        return String.format("%s [%s][%s] %s", this.id, this.type, this.status, this.summary);
+        return String.format("Ticket: %s [%s][%s] %s", this.id, this.type, this.status, this.summary);
     }
 }
