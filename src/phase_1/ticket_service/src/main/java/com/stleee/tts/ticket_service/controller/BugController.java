@@ -70,11 +70,37 @@ public class BugController {
         if (stuffType.compareTo("QA") == 0) {
             Optional<Ticket> ticketOptional = ticketRepository.findById(id);
             if (ticketOptional.isPresent()) {
-                ticketRepository.deleteById(id);
-                return new ResponseTransfer("delete bug success");
+                Ticket ticket = ticketOptional.get();
+                if (ticket.getType() == Ticket.Type.Bug) {
+                    ticketRepository.deleteById(id);
+                    return new ResponseTransfer("delete bug success");
+                }
             }
             return new ResponseTransfer(404, "bug " + id + " not found");
         }
         return new ResponseTransfer(403, "forbidden");
+    }
+    
+    @RequestMapping(value = "/{id}/{var}", method = RequestMethod.PATCH)
+    public ResponseTransfer PATCH(@RequestHeader("Authorization") String idToken, @PathVariable("id") String id, @PathVariable("var") String var, @RequestBody Ticket newTicket) {
+        switch (var) {
+        case "status":
+            String stuffType = idToken.split(" ")[1];
+            if (stuffType.compareTo("RD") == 0) {
+                Optional<Ticket> ticketOptional = ticketRepository.findById(id);
+                if (ticketOptional.isPresent()) {
+                    Ticket ticket = ticketOptional.get();
+                    if (ticket.getType() == Ticket.Type.Bug) {
+                        ticket.setStatus(newTicket.getStatus());
+                        ticket = ticketRepository.save(ticket);
+                        return new ResponseTransfer(ticket);
+                    }
+                }
+                return new ResponseTransfer(404, "bug " + id + " not found");
+            }
+            return new ResponseTransfer(403, "forbidden");
+        default:
+            return new ResponseTransfer(404, "not found");
+        }
     }
 }
