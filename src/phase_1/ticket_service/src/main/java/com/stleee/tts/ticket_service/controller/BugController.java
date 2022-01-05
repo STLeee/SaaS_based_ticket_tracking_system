@@ -10,6 +10,7 @@ import com.stleee.tts.ticket_service.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/api/bug")
 public class BugController {
