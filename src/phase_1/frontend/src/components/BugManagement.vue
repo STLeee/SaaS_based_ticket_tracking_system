@@ -102,13 +102,52 @@
     </v-row>
     <v-row v-for="(bug, i) in bugs" :key="i">
     </v-row>
+
+    <v-dialog v-model="newBugDialogShow" max-width="500px" persistent>
+      <v-card>
+        <v-card-title>
+          Create New Bug
+        </v-card-title>
+        <bug-form
+          ref="newBugForm"
+          class="mx-4 mt-4"
+          :summary.sync="newBugData.summary"
+          :description.sync="newBugData.description"
+          :valid.sync="newBugDataValid"
+        >
+        </bug-form>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="red"
+            text
+            @click="cancelCreateBug"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="green"
+            text
+            @click="confirmCreateBug"
+            :disabled="!newBugDataValid"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import BugForm from '@/components/BugForm'
+
 export default {
   name: 'BugManagement',
+  components: {
+    BugForm
+  },
   computed: {
     ...mapState([
       'stuffType',
@@ -146,7 +185,13 @@ export default {
         value: 'data-table-expand'
       },
     ],
-    bugs: []
+    bugs: [],
+    newBugDialogShow: false,
+    newBugData: {
+      summary: '',
+      description: '',
+    },
+    newBugDataValid: false
   }),
   methods: {
     setIsLoading(isLoading) {
@@ -175,7 +220,17 @@ export default {
       }
     },
     createBug() {
-      console.log('create bug')
+      this.newBugData.summary = 'New Bug'
+      this.newBugData.description = ''
+      this.$refs.newBugForm?.resetValidation()
+      this.newBugDialogShow = true
+    },
+    confirmCreateBug() {
+      console.log('create bug', this.newBugData.summary, this.newBugData.description)
+      this.newBugDialogShow = false
+    },
+    cancelCreateBug() {
+      this.newBugDialogShow = false
     },
     editBug(bug) {
       console.log('edit bug', bug)
