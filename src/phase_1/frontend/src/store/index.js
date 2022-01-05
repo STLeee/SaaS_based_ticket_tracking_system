@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    isLoading: false,
     stuffType: 'QA',
     apiIP: '127.0.0.1',
     apiPort: '3000',
   },
   mutations: {
+    setIsLoading (state, isLoading) {
+      state.isLoading = isLoading
+    },
     setStuffType (state, type) {
       state.stuffType = type
     },
@@ -21,6 +25,9 @@ const store = new Vuex.Store({
     },
   },
   actions: {
+    setIsLoading (context, isLoading) {
+      context.commit('setIsLoading', isLoading)
+    },
     setStuffType (context, type) {
       context.commit('setStuffType', type)
     },

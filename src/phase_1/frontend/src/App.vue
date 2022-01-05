@@ -41,20 +41,29 @@
     <v-main>
       <BugManagement/>
     </v-main>
+
+    <VueLoadingOverlay
+      :active="isLoading"
+      is-full-page
+      loader="dots"/>
   </v-app>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import VueLoadingOverlay from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import BugManagement from './components/BugManagement';
 
 export default {
   name: 'App',
   components: {
+    VueLoadingOverlay,
     BugManagement,
   },
   computed: {
     ...mapState([
+      'isLoading',
       'stuffType',
       'apiIP',
       'apiPort'

@@ -14,7 +14,6 @@
                   large
                   color="black"
                   @click="getBugs"
-                  :loading="loading"
                   v-bind="attrs"
                   v-on="on"
                 >
@@ -146,19 +145,22 @@ export default {
     bugs: []
   }),
   methods: {
+    setIsLoading(isLoading) {
+      this.$store.dispatch('setIsLoading', isLoading)
+    },
     getBugs() {
-      this.loading = true
+      this.setIsLoading(true)
       return this.$axios.get(`http://${this.apiIP}:${this.apiPort}/api/bug`).then((res) => {
         if (res.data.status == 200) return res.data.result
         else alert(`[${res.data.status}] ${res.data.error}`)
       })
       .then(bugs => {
         this.bugs = bugs
-        this.loading = false
+        this.setIsLoading(false)
       })
       .catch(err => {
         console.error(err)
-        this.loading = false
+        this.setIsLoading(false)
       })
     },
     getBugStatusColor(bug) {
