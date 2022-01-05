@@ -7,21 +7,25 @@
             <span class="text-h5 font-weight-black">Bugs</span>
 
             <v-spacer></v-spacer>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  large
-                  color="black"
-                  @click="getBugs"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-icon>mdi-refresh</v-icon>
-                </v-btn>
-              </template>
-              <span>Refresh</span>
-            </v-tooltip>
+
+            <v-btn
+              class="mr-4"
+              color="primary"
+              dark
+              @click="createBug"
+            >
+              <v-icon left>mdi-plus</v-icon>
+              New Bug
+            </v-btn>
+
+            <v-btn
+              color="primary"
+              dark
+              @click="getBugs"
+            >
+              <v-icon left>mdi-refresh</v-icon>
+              Refresh
+            </v-btn>
           </v-card-title>
 
           <v-card outlined class="mx-4">
@@ -169,6 +173,9 @@ export default {
       } else {
         return 'gray'
       }
+    },
+    createBug() {
+      console.log('create bug')
     },
     editBug(bug) {
       console.log('edit bug', bug)
