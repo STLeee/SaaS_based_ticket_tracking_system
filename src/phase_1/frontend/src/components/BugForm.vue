@@ -34,7 +34,6 @@ export default {
         return this.summary
       },
       set(val){
-        console.log(val)
         this.$emit('update:summary',val)
       }
     },
