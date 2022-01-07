@@ -14,6 +14,15 @@
     - [System Diagram](#system-diagram)
     - [Data Flow Diagram](#data-flow-diagram)
     - [Sequence Diagram](#sequence-diagram)
+  - [Installation](#installation)
+  - [Preview](#preview)
+    - [Phase I](#phase-i-1)
+      - [Run ticket service](#run-ticket-service)
+      - [Serve front-end](#serve-front-end)
+  - [Build](#build)
+    - [Phase I](#phase-i-2)
+      - [Compile ticket service](#compile-ticket-service)
+      - [Build front-end](#build-front-end)
 
 ----------------------------------------------------------------------------------------------------
 
@@ -100,3 +109,57 @@ https://istio.io/latest/docs/setup/getting-started/
 ### Sequence Diagram
 
 ![Sequence diagram](./images/sequence_diagram.png)
+
+----------------------------------------------------------------------------------------------------
+
+## Installation
+
+- [Java JDK](https://www.oracle.com/java/technologies/downloads/#java11)
+- [Maven](https://maven.apache.org/download.cgi)
+- [Vue CLI](https://cli.vuejs.org/guide/installation.html)
+- VSCode extensions
+  - Extension Pack for Java
+  - Debugger for Java
+  - Maven for Java
+  - Language Support for Java(TM) by Red Hat
+  - Spring Boot Dashboard
+  - Spring Boot Tools
+  - Spring Initializr Java Support
+
+----------------------------------------------------------------------------------------------------
+
+## Preview
+
+### Phase I
+
+#### Run ticket service
+
+```
+cd src\phase_1\ticket_service
+mvn spring-boot:run
+```
+
+#### Serve front-end
+
+```
+cd src\phase_1\frontend
+npm run serve
+```
+
+----------------------------------------------------------------------------------------------------
+
+## Build
+
+### Phase I
+
+#### Compile ticket service
+
+```
+```
+
+#### Build front-end
+
+```
+cd src\phase_1\frontend
+npm run build
+```
