@@ -92,8 +92,17 @@
                 </v-tooltip>
               </template>
               <template v-slot:expanded-item="{ headers, item }">
-                <td :colspan="headers.length">
-                  {{ item.description }}
+                <td class="pa-0" :colspan="headers.length">
+                  <v-card outlined>
+                    <v-card-title>
+                      Bug: {{ item.summary }}
+                    </v-card-title>
+                    <v-card-text>
+                      <div class="ml-6">
+                        <span style="white-space: pre-line">{{ item.description }}</span>
+                      </div>
+                    </v-card-text>
+                  </v-card>
                 </td>
               </template>
             </v-data-table>
@@ -294,7 +303,7 @@ export default {
     },
     getAPIConfig() {
       return {
-        baseURL: `http://${this.apiIP}:${this.apiPort}`,
+        baseURL: `http://${this.apiIP}:${this.apiPort}/api`,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.stuffType}`
@@ -303,7 +312,7 @@ export default {
     },
     getBugs() {
       this.setIsLoading(true)
-      return this.$axios.get('/api/bug', this.getAPIConfig()).then((res) => {
+      return this.$axios.get('/bug', this.getAPIConfig()).then((res) => {
         if (res.data.status == 200) return res.data.result
         else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
       })
@@ -319,7 +328,7 @@ export default {
     },
     createBug(summary, description) {
       this.setIsLoading(true)
-      return this.$axios.post('/api/bug', { summary, description }, this.getAPIConfig()).then((res) => {
+      return this.$axios.post('/bug', { summary, description }, this.getAPIConfig()).then((res) => {
         if (res.data.status == 200) return res.data.result
         else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
       })
@@ -334,13 +343,67 @@ export default {
       })
     },
     editBug(bug, summary, description) {
-      console.log('edit bug', bug, summary, description)
+      this.setIsLoading(true)
+      return this.$axios.put(`/bug/${bug.id}`, { summary, description }, this.getAPIConfig()).then((res) => {
+        if (res.data.status == 200) return res.data.result
+        else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
+      })
+      .then(result => {
+        for (var i in this.bugs) {
+          if (this.bugs[i].id == result.id) {
+            this.bugs.splice(i, 1, result)
+            break
+          }
+        }
+        this.setIsLoading(false)
+      })
+      .catch(err => {
+        alert(err)
+        console.error(err)
+        this.setIsLoading(false)
+      })
     },
     deleteBug(bug) {
-      console.log('delete bug', bug)
+      this.setIsLoading(true)
+      return this.$axios.delete(`/bug/${bug.id}`, this.getAPIConfig()).then((res) => {
+        if (res.data.status == 200) return res.data.result
+        else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
+      })
+      .then(() => {
+        for (var i in this.bugs) {
+          if (this.bugs[i].id == bug.id) {
+            this.bugs.splice(i, 1)
+            break
+          }
+        }
+        this.setIsLoading(false)
+      })
+      .catch(err => {
+        alert(err)
+        console.error(err)
+        this.setIsLoading(false)
+      })
     },
     resolveBug(bug) {
-      console.log('resolve bug', bug)
+      this.setIsLoading(true)
+      return this.$axios.patch(`/bug/${bug.id}/status`, { "status": "Closed" }, this.getAPIConfig()).then((res) => {
+        if (res.data.status == 200) return res.data.result
+        else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
+      })
+      .then(result => {
+        for (var i in this.bugs) {
+          if (this.bugs[i].id == result.id) {
+            this.bugs.splice(i, 1, result)
+            break
+          }
+        }
+        this.setIsLoading(false)
+      })
+      .catch(err => {
+        alert(err)
+        console.error(err)
+        this.setIsLoading(false)
+      })
     },
     getBugStatusColor(bug) {
       if (bug.status == 'Opened') {
