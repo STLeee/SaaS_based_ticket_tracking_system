@@ -12,7 +12,7 @@
               class="mr-4"
               color="primary"
               dark
-              @click="createBug"
+              @click="toCreateBug"
             >
               <v-icon left>mdi-plus</v-icon>
               New Bug
@@ -53,7 +53,7 @@
                       v-if="item.status=='Opened'"
                       class="mr-4"
                       color="green"
-                      @click="resolveBug(item)"
+                      @click="toResolveBug(item)"
                       v-bind="attrs"
                       v-on="on"
                     >
@@ -67,7 +67,7 @@
                     <v-icon
                       class="mr-4"
                       color="black"
-                      @click="editBug(item)"
+                      @click="toEditBug(item)"
                       v-bind="attrs"
                       v-on="on"
                     >
@@ -80,7 +80,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon
                       color="red"
-                      @click="deleteBug(item)"
+                      @click="toDeleteBug(item)"
                       v-bind="attrs"
                       v-on="on"
                     >
@@ -111,9 +111,9 @@
         <bug-form
           ref="newBugForm"
           class="mx-4 mt-4"
-          :summary.sync="newBugData.summary"
-          :description.sync="newBugData.description"
-          :valid.sync="newBugDataValid"
+          :summary.sync="bugFormData.summary"
+          :description.sync="bugFormData.description"
+          :valid.sync="bugFormDataValid"
         >
         </bug-form>
         <v-card-actions>
@@ -129,7 +129,97 @@
             color="green"
             text
             @click="confirmCreateBug"
-            :disabled="!newBugDataValid"
+            :disabled="!bugFormDataValid"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="editBugDialogShow" max-width="500px" persistent>
+      <v-card>
+        <v-card-title>
+          Edit Bug {{ beEditedBug? `(${beEditedBug.id})`: '' }}
+        </v-card-title>
+        <bug-form
+          ref="editBugForm"
+          class="mx-4 mt-4"
+          :summary.sync="bugFormData.summary"
+          :description.sync="bugFormData.description"
+          :valid.sync="bugFormDataValid"
+        >
+        </bug-form>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="red"
+            text
+            @click="cancelEditBug"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="green"
+            text
+            @click="confirmEditBug"
+            :disabled="!bugFormDataValid"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="deleteBugDialogShow" max-width="500px" persistent>
+      <v-card>
+        <v-card-title>
+          Delete Bug {{ beEditedBug? `(${beEditedBug.id})`: '' }}
+        </v-card-title>
+        <v-card-text>
+          Are you sure to delete this bug?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="red"
+            text
+            @click="cancelDeleteBug"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="green"
+            text
+            @click="confirmDeleteBug"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="resolveBugDialogShow" max-width="500px" persistent>
+      <v-card>
+        <v-card-title>
+          Resolve Bug {{ beEditedBug? `(${beEditedBug.id})`: '' }}
+        </v-card-title>
+        <v-card-text>
+          Are you sure to resolve this bug?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="red"
+            text
+            @click="cancelResolveBug"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="green"
+            text
+            @click="confirmResolveBug"
           >
             Confirm
           </v-btn>
@@ -187,11 +277,15 @@ export default {
     ],
     bugs: [],
     newBugDialogShow: false,
-    newBugData: {
+    editBugDialogShow: false,
+    deleteBugDialogShow: false,
+    resolveBugDialogShow: false,
+    bugFormData: {
       summary: '',
       description: '',
     },
-    newBugDataValid: false
+    bugFormDataValid: false,
+    beEditedBug: null
   }),
   methods: {
     setIsLoading(isLoading) {
@@ -212,6 +306,18 @@ export default {
         this.setIsLoading(false)
       })
     },
+    createBug(summary, description) {
+      console.log('create bug', summary, description)
+    },
+    editBug(bug, summary, description) {
+      console.log('edit bug', bug, summary, description)
+    },
+    deleteBug(bug) {
+      console.log('delete bug', bug)
+    },
+    resolveBug(bug) {
+      console.log('resolve bug', bug)
+    },
     getBugStatusColor(bug) {
       if (bug.status == 'Opened') {
         return 'green'
@@ -219,27 +325,54 @@ export default {
         return 'gray'
       }
     },
-    createBug() {
-      this.newBugData.summary = 'New Bug'
-      this.newBugData.description = ''
+    toCreateBug() {
+      this.bugFormData.summary = 'New Bug'
+      this.bugFormData.description = ''
       this.$refs.newBugForm?.resetValidation()
       this.newBugDialogShow = true
     },
     confirmCreateBug() {
-      console.log('create bug', this.newBugData.summary, this.newBugData.description)
+      this.createBug(this.bugFormData.summary, this.bugFormData.description)
       this.newBugDialogShow = false
     },
     cancelCreateBug() {
       this.newBugDialogShow = false
     },
-    editBug(bug) {
-      console.log('edit bug', bug)
+    toEditBug(bug) {
+      this.beEditedBug = bug
+      this.bugFormData.summary = bug.summary
+      this.bugFormData.description = bug.description
+      this.$refs.editBugForm?.resetValidation()
+      this.editBugDialogShow = true
     },
-    deleteBug(bug) {
-      console.log('delete bug', bug)
+    confirmEditBug() {
+      this.editBug(this.beEditedBug, this.bugFormData.summary, this.bugFormData.description)
+      this.editBugDialogShow = false
     },
-    resolveBug(bug) {
-      console.log('resolve bug', bug)
+    cancelEditBug() {
+      this.editBugDialogShow = false
+    },
+    toDeleteBug(bug) {
+      this.beEditedBug = bug
+      this.deleteBugDialogShow = true
+    },
+    confirmDeleteBug() {
+      this.deleteBug(this.beEditedBug)
+      this.deleteBugDialogShow = false
+    },
+    cancelDeleteBug() {
+      this.deleteBugDialogShow = false
+    },
+    toResolveBug(bug) {
+      this.beEditedBug = bug
+      this.resolveBugDialogShow = true
+    },
+    confirmResolveBug() {
+      this.resolveBug(this.beEditedBug)
+      this.resolveBugDialogShow = false
+    },
+    cancelResolveBug() {
+      this.resolveBugDialogShow = false
     }
   },
   mounted() {
