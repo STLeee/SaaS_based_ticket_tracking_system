@@ -1,0 +1,39 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Install phase I front-end dependencies",
+			"detail": "install dependencies from package",
+			"type": "npm",
+			"script": "install",
+			"path": "src/phase_1/frontend/",
+			"problemMatcher": []
+		},
+		{
+			"label": "Serve phase I front-end",
+			"detail": "vue-cli-service serve",
+			"type": "npm",
+			"script": "serve",
+			"path": "src/phase_1/frontend/",
+			"problemMatcher": []
+		},
+		{
+			"label": "Build phase I front-end",
+			"detail": "vue-cli-service build",
+			"type": "npm",
+			"script": "build",
+			"path": "src/phase_1/frontend/",
+			"problemMatcher": []
+		},
+		{
+			"label": "Run phase I ticket service",
+			"detail": "mvn spring-boot:run",
+			"type": "shell",
+			"command": "mvn spring-boot:run",
+            "options": {
+                "cwd": "${workspaceFolder}/src/phase_1/ticket_service/"
+            },
+			"problemMatcher": []
+		}
+	]
+}
