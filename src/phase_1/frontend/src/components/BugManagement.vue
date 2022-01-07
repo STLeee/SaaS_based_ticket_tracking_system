@@ -34,6 +34,7 @@
               :expanded.sync="bugExpanded"
               show-expand
               sort-by="id"
+              sort-desc
               :headers="bugHeaders"
               :items="bugs"
             >
@@ -291,23 +292,46 @@ export default {
     setIsLoading(isLoading) {
       this.$store.dispatch('setIsLoading', isLoading)
     },
+    getAPIConfig() {
+      return {
+        baseURL: `http://${this.apiIP}:${this.apiPort}`,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.stuffType}`
+        },
+      }
+    },
     getBugs() {
       this.setIsLoading(true)
-      return this.$axios.get(`http://${this.apiIP}:${this.apiPort}/api/bug`).then((res) => {
+      return this.$axios.get('/api/bug', this.getAPIConfig()).then((res) => {
         if (res.data.status == 200) return res.data.result
-        else alert(`[${res.data.status}] ${res.data.error}`)
+        else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
       })
-      .then(bugs => {
-        this.bugs = bugs
+      .then(result => {
+        this.bugs = result
         this.setIsLoading(false)
       })
       .catch(err => {
+        alert(err)
         console.error(err)
         this.setIsLoading(false)
       })
     },
     createBug(summary, description) {
-      console.log('create bug', summary, description)
+      this.setIsLoading(true)
+      return this.$axios.post('/api/bug', { summary, description }, this.getAPIConfig()).then((res) => {
+        if (res.data.status == 200) return res.data.result
+        else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
+      })
+      .then(result => {
+        this.bugs.push(result)
+        this.setIsLoading(false)
+      })
+      .catch(err => {
+        alert(err)
+        console.error(err)
+        this.setIsLoading(false)
+      })
     },
     editBug(bug, summary, description) {
       console.log('edit bug', bug, summary, description)
