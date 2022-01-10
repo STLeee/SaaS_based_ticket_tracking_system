@@ -8,7 +8,7 @@ const store = new Vuex.Store({
     isLoading: false,
     stuffType: 'QA',
     apiIP: '127.0.0.1',
-    apiPort: '3000',
+    apiPort: '80',
   },
   mutations: {
     setIsLoading (state, isLoading) {
