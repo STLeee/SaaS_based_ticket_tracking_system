@@ -1,0 +1,54 @@
+##################################################################################################
+# ticket service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticket
+  namespace: tts-p1
+  labels:
+    app: tts-p1
+    service: ticket
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    name: http
+  selector:
+    app: tts-p1
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ticket
+  namespace: tts-p1
+  labels:
+    app: tts-p1
+    account: ticket
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticket
+  namespace: tts-p1
+  labels:
+    app: tts-p1
+    service: ticket
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tts-p1
+  template:
+    metadata:
+      labels:
+        app: tts-p1
+        service: ticket
+    spec:
+      serviceAccountName: ticket
+      containers:
+      - name: tts-p1-ticket
+        image: docker.io/scottli/tts-p1-ticket-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000

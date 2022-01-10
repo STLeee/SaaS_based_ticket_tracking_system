@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: tts-p1-gateway
+  namespace: tts-p1
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: tts-p1
+  namespace: tts-p1
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - tts-p1-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /api/bug
+    route:
+    - destination:
+        host: ticket
+        port:
+          number: 3000

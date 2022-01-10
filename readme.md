@@ -22,7 +22,8 @@
   - [Build](#build)
     - [Phase I](#phase-i-2)
       - [Compile ticket service](#compile-ticket-service)
-      - [Build front-end](#build-front-end)
+  - [Deploy](#deploy)
+    - [Kubernetes on Docker](#kubernetes-on-docker)
 
 ----------------------------------------------------------------------------------------------------
 
@@ -124,6 +125,7 @@ https://istio.io/latest/docs/setup/getting-started/
   - Spring Boot Dashboard
   - Spring Boot Tools
   - Spring Initializr Java Support
+- [Istio](https://istio.io/latest/docs/setup/getting-started/#download)
 
 ----------------------------------------------------------------------------------------------------
 
@@ -158,9 +160,14 @@ cd src\phase_1\ticket_service
 mvnw compile jib:build
 ```
 
-#### Build front-end
+----------------------------------------------------------------------------------------------------
+
+## Deploy
+
+### Kubernetes on Docker
 
 ```
-cd src\phase_1\frontend
-npm run build
+cd src\phase_1
+kubectl apply -f tts-p1.yaml 
+kubectl apply -f tts-p1-getway.yaml
 ```
