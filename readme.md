@@ -115,7 +115,6 @@ https://istio.io/latest/docs/setup/getting-started/
 ## Installation
 
 - [Java JDK](https://www.oracle.com/java/technologies/downloads/#java11)
-- [Maven](https://maven.apache.org/download.cgi)
 - [Vue CLI](https://cli.vuejs.org/guide/installation.html)
 - VSCode extensions
   - Extension Pack for Java
@@ -136,7 +135,7 @@ https://istio.io/latest/docs/setup/getting-started/
 
 ```
 cd src\phase_1\ticket_service
-mvn spring-boot:run
+mvnw spring-boot:run
 ```
 
 #### Serve front-end
@@ -155,6 +154,8 @@ npm run serve
 #### Compile ticket service
 
 ```
+cd src\phase_1\ticket_service
+mvnw compile jib:build
 ```
 
 #### Build front-end

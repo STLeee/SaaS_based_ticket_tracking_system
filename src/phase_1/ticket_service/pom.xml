@@ -40,6 +40,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.1.4</version>
+				<configuration>
+					<to>
+						<image>docker.io/scottli/tts-p1-ticket-service</image>
+					</to>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
