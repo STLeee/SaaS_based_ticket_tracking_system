@@ -38,8 +38,8 @@ public class BugController {
     
     @RequestMapping(method = RequestMethod.POST)
     public ResponseTransfer Post(@RequestHeader("Authorization") String idToken, @RequestBody Ticket newTicket) {
-        String stuffType = idToken.split(" ")[1];
-        if (stuffType.compareTo("QA") == 0) {
+        String staffType = idToken.split(" ")[1];
+        if (staffType.compareTo("QA") == 0) {
             Ticket ticket = ticketRepository.save(new Ticket(Instant.now().toString(), Ticket.Type.Bug, newTicket.getSummary(), newTicket.getDescription()));
             return new ResponseTransfer(ticket);
         }
@@ -48,8 +48,8 @@ public class BugController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseTransfer Put(@RequestHeader("Authorization") String idToken, @PathVariable("id") String id, @RequestBody Ticket newTicket) {
-        String stuffType = idToken.split(" ")[1];
-        if (stuffType.compareTo("QA") == 0) {
+        String staffType = idToken.split(" ")[1];
+        if (staffType.compareTo("QA") == 0) {
             Optional<Ticket> ticketOptional = ticketRepository.findById(id);
             if (ticketOptional.isPresent()) {
                 Ticket ticket = ticketOptional.get();
@@ -67,8 +67,8 @@ public class BugController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseTransfer DELETE(@RequestHeader("Authorization") String idToken, @PathVariable("id") String id) {
-        String stuffType = idToken.split(" ")[1];
-        if (stuffType.compareTo("QA") == 0) {
+        String staffType = idToken.split(" ")[1];
+        if (staffType.compareTo("QA") == 0) {
             Optional<Ticket> ticketOptional = ticketRepository.findById(id);
             if (ticketOptional.isPresent()) {
                 Ticket ticket = ticketOptional.get();
@@ -86,8 +86,8 @@ public class BugController {
     public ResponseTransfer PATCH(@RequestHeader("Authorization") String idToken, @PathVariable("id") String id, @PathVariable("var") String var, @RequestBody Ticket newTicket) {
         switch (var) {
         case "status":
-            String stuffType = idToken.split(" ")[1];
-            if (stuffType.compareTo("RD") == 0) {
+            String staffType = idToken.split(" ")[1];
+            if (staffType.compareTo("RD") == 0) {
                 Optional<Ticket> ticketOptional = ticketRepository.findById(id);
                 if (ticketOptional.isPresent()) {
                     Ticket ticket = ticketOptional.get();

@@ -6,7 +6,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     isLoading: false,
-    stuffType: 'QA',
+    staffType: 'QA',
     apiIP: '127.0.0.1',
     apiPort: '80',
   },
@@ -14,8 +14,8 @@ const store = new Vuex.Store({
     setIsLoading (state, isLoading) {
       state.isLoading = isLoading
     },
-    setStuffType (state, type) {
-      state.stuffType = type
+    setStaffType (state, type) {
+      state.staffType = type
     },
     setAPIIP (state, ip) {
       state.apiIP = ip
@@ -28,8 +28,8 @@ const store = new Vuex.Store({
     setIsLoading (context, isLoading) {
       context.commit('setIsLoading', isLoading)
     },
-    setStuffType (context, type) {
-      context.commit('setStuffType', type)
+    setStaffType (context, type) {
+      context.commit('setStaffType', type)
     },
     setAPIIP (context, ip) {
       context.commit('setAPIIP', ip)

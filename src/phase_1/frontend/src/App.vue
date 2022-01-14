@@ -2,15 +2,15 @@
   <v-app>
     <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
-        <span class="mr-2 text-h5 font-weight-black text-uppercase">Stuff</span>
+        <span class="mr-2 text-h5 font-weight-black text-uppercase">Staff</span>
         <v-select
-          id="stuff-type-select"
+          id="staff-type-select"
           class="text-h5 font-weight-black"
           outlined
           hide-details
-          :items="stuffTypes"
-          :value="stuffType"
-          @input="setStuffType"
+          :items="staffTypes"
+          :value="staffType"
+          @input="setStaffType"
         ></v-select>
       </div>
 
@@ -64,17 +64,17 @@ export default {
   computed: {
     ...mapState([
       'isLoading',
-      'stuffType',
+      'staffType',
       'apiIP',
       'apiPort'
     ])
   },
   data: () => ({
-    stuffTypes: ['QA', 'RD'],
+    staffTypes: ['QA', 'RD'],
   }),
   methods: {
-    setStuffType(type) {
-      this.$store.dispatch('setStuffType', type)
+    setStaffType(type) {
+      this.$store.dispatch('setStaffType', type)
     },
     setAPIIP (ip) {
       console.log(ip)
@@ -88,7 +88,7 @@ export default {
 </script>
 
 <style lang="scss">
-#stuff-type-select {
+#staff-type-select {
   max-width: 10px;
 }
 #api-ip-input {

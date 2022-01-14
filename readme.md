@@ -46,7 +46,7 @@ Please design a SaaS based ticket tracking system. This system allows QA to repo
     - Adding new field Severity and Priority to a ticket.
     - Adding new type of user "PM" that can create new ticket type "Feature Request". And only RD can mark it as resolved.
     - Adding new ticket type "Test Case" that only QA can create and resolve. It's read-only for other type of users.
-    - Adding Administrator user that can manage all the stuffs including adding new QA, RD and PM user.
+    - Adding Administrator user that can manage all the staffs including adding new QA, RD and PM user.
 
 ### Task
 

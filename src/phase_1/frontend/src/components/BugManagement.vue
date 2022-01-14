@@ -250,7 +250,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'stuffType',
+      'staffType',
       'apiIP',
       'apiPort'
     ])
@@ -306,7 +306,7 @@ export default {
         baseURL: `http://${this.apiIP}:${this.apiPort}/api`,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.stuffType}`
+          'Authorization': `Bearer ${this.staffType}`
         },
       }
     },
