@@ -140,6 +140,13 @@ cd src\phase_1\ticket_service
 mvnw spring-boot:run
 ```
 
+#### Run staff service
+
+```
+cd src\phase_1\staff_service
+mvnw spring-boot:run
+```
+
 #### Serve front-end
 
 ```
