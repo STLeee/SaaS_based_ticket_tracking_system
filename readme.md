@@ -133,17 +133,17 @@ https://istio.io/latest/docs/setup/getting-started/
 
 ### Phase I
 
-#### Run ticket service
-
-```
-cd src\phase_1\ticket_service
-mvnw spring-boot:run
-```
-
 #### Run staff service
 
 ```
 cd src\phase_1\staff_service
+mvnw spring-boot:run
+```
+
+#### Run ticket service
+
+```
+cd src\phase_1\ticket_service
 mvnw spring-boot:run
 ```
 
@@ -159,6 +159,13 @@ npm run serve
 ## Build
 
 ### Phase I
+
+#### Compile staff service
+
+```
+cd src\phase_1\staff_service
+mvnw compile jib:build
+```
 
 #### Compile ticket service
 

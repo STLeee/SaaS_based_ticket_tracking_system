@@ -26,10 +26,40 @@
 			"problemMatcher": []
 		},
 		{
+			"label": "Run phase I staff service",
+			"detail": "mvn spring-boot:run",
+			"type": "shell",
+			"command": "mvn spring-boot:run",
+            "options": {
+                "cwd": "${workspaceFolder}/src/phase_1/staff_service/"
+            },
+			"problemMatcher": []
+		},
+		{
+			"label": "Compile phase I staff service",
+			"detail": "mvnw compile jib:build",
+			"type": "shell",
+			"command": "mvnw compile jib:build",
+            "options": {
+                "cwd": "${workspaceFolder}/src/phase_1/staff_service/"
+            },
+			"problemMatcher": []
+		},
+		{
 			"label": "Run phase I ticket service",
 			"detail": "mvn spring-boot:run",
 			"type": "shell",
 			"command": "mvn spring-boot:run",
+            "options": {
+                "cwd": "${workspaceFolder}/src/phase_1/ticket_service/"
+            },
+			"problemMatcher": []
+		},
+		{
+			"label": "Compile phase I ticket service",
+			"detail": "mvnw compile jib:build",
+			"type": "shell",
+			"command": "mvnw compile jib:build",
             "options": {
                 "cwd": "${workspaceFolder}/src/phase_1/ticket_service/"
             },
