@@ -167,6 +167,13 @@ cd src\phase_1\staff_service
 mvnw compile jib:build
 ```
 
+#### Install staff service
+
+```
+cd src\phase_1\staff_service
+mvnw clean install
+```
+
 #### Compile ticket service
 
 ```

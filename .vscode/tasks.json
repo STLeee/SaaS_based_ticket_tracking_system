@@ -27,9 +27,19 @@
 		},
 		{
 			"label": "Run phase I staff service",
-			"detail": "mvn spring-boot:run",
+			"detail": "mvnw spring-boot:run",
 			"type": "shell",
-			"command": "mvn spring-boot:run",
+			"command": "mvnw spring-boot:run",
+            "options": {
+                "cwd": "${workspaceFolder}/src/phase_1/staff_service/"
+            },
+			"problemMatcher": []
+		},
+		{
+			"label": "Install phase I staff service",
+			"detail": "mvnw clean install",
+			"type": "shell",
+			"command": "mvnw clean install",
             "options": {
                 "cwd": "${workspaceFolder}/src/phase_1/staff_service/"
             },
@@ -47,9 +57,9 @@
 		},
 		{
 			"label": "Run phase I ticket service",
-			"detail": "mvn spring-boot:run",
+			"detail": "mvnw spring-boot:run",
 			"type": "shell",
-			"command": "mvn spring-boot:run",
+			"command": "mvnw spring-boot:run",
             "options": {
                 "cwd": "${workspaceFolder}/src/phase_1/ticket_service/"
             },
