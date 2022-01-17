@@ -103,7 +103,7 @@ public class BugController {
     }
 
     private Optional<Staff> VerifyStaff(String bearerToken) {
-        if (!bearerToken.startsWith("bearer ")) return Optional.empty();
+        if (!bearerToken.startsWith("Bearer ")) return Optional.empty();
         String token = bearerToken.split(" ")[1];
         RestTemplate restTemplate = new RestTemplate();
         Staff staff = restTemplate.getForObject("http://staff:3000/token/{token}", Staff.class, token);
