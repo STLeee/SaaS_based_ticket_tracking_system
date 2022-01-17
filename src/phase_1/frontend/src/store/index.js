@@ -10,6 +10,20 @@ const store = new Vuex.Store({
     apiIP: '127.0.0.1',
     apiPort: '80',
   },
+  getters: {
+    staffTypes() {
+      return ['QA', 'RD']
+    },
+    staffToken(state) {
+      switch (state.staffType) {
+        case 'QA':
+          return '7605d3247343467fb0b2b555dd1739081cdf72871ec84cae9a55fcab30fd0af8'
+        case 'RD':
+          return 'b6f7bec9ef844130b39d3c18d248829870d3f9fb78ca4465906ba1cb836176b6'
+      }
+      return ''
+    }
+  },
   mutations: {
     setIsLoading (state, isLoading) {
       state.isLoading = isLoading

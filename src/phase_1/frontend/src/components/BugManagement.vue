@@ -240,7 +240,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import BugForm from '@/components/BugForm'
 
 export default {
@@ -250,9 +250,11 @@ export default {
   },
   computed: {
     ...mapState([
-      'staffType',
       'apiIP',
       'apiPort'
+    ]),
+    ...mapGetters([
+      'staffToken'
     ])
   },
   data: () => ({
@@ -306,15 +308,14 @@ export default {
         baseURL: `http://${this.apiIP}:${this.apiPort}/api`,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.staffType}`
+          'Authorization': `Bearer ${this.staffToken}`
         },
       }
     },
     getBugs() {
       this.setIsLoading(true)
       return this.$axios.get('/bug', this.getAPIConfig()).then((res) => {
-        if (res.data.status == 200) return res.data.result
-        else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
+        return res.data
       })
       .then(result => {
         this.bugs = result
@@ -329,8 +330,7 @@ export default {
     createBug(summary, description) {
       this.setIsLoading(true)
       return this.$axios.post('/bug', { summary, description }, this.getAPIConfig()).then((res) => {
-        if (res.data.status == 200) return res.data.result
-        else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
+        return res.data
       })
       .then(result => {
         this.bugs.push(result)
@@ -345,8 +345,7 @@ export default {
     editBug(bug, summary, description) {
       this.setIsLoading(true)
       return this.$axios.put(`/bug/${bug.id}`, { summary, description }, this.getAPIConfig()).then((res) => {
-        if (res.data.status == 200) return res.data.result
-        else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
+        return res.data
       })
       .then(result => {
         for (var i in this.bugs) {
@@ -366,8 +365,7 @@ export default {
     deleteBug(bug) {
       this.setIsLoading(true)
       return this.$axios.delete(`/bug/${bug.id}`, this.getAPIConfig()).then((res) => {
-        if (res.data.status == 200) return res.data.result
-        else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
+        return res.data
       })
       .then(() => {
         for (var i in this.bugs) {
@@ -387,8 +385,7 @@ export default {
     resolveBug(bug) {
       this.setIsLoading(true)
       return this.$axios.patch(`/bug/${bug.id}/status`, { "status": "Closed" }, this.getAPIConfig()).then((res) => {
-        if (res.data.status == 200) return res.data.result
-        else return Promise.reject(`[${res.data.status}] ${res.data.error}`)
+        return res.data
       })
       .then(result => {
         for (var i in this.bugs) {

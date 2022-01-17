@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import VueLoadingOverlay from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import BugManagement from './components/BugManagement';
@@ -67,11 +67,11 @@ export default {
       'staffType',
       'apiIP',
       'apiPort'
+    ]),
+    ...mapGetters([
+      'staffTypes'
     ])
   },
-  data: () => ({
-    staffTypes: ['QA', 'RD'],
-  }),
   methods: {
     setStaffType(type) {
       this.$store.dispatch('setStaffType', type)
