@@ -6,7 +6,9 @@ import com.stleee.tts.staff_service.model.Token;
 import com.stleee.tts.staff_service.repository.TokenRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @CrossOrigin(origins="*")
 @RestController
@@ -17,12 +19,8 @@ public class TokenController {
     private TokenRepository tokenRepository;
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseTransfer Get(@PathVariable("id") String id) {
+    public Token Get(@PathVariable("id") String id) {
         Optional<Token> tokenOptional = tokenRepository.findById(id);
-        if (tokenOptional.isPresent()) {
-            Token token = tokenOptional.get();
-            return new ResponseTransfer(token);
-        }
-        return new ResponseTransfer(404, "token " + id + " not found");
+        return tokenOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "token " + id + " not found"));
     }
 }

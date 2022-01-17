@@ -6,7 +6,9 @@ import com.stleee.tts.staff_service.model.Staff;
 import com.stleee.tts.staff_service.repository.StaffRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @CrossOrigin(origins="*")
 @RestController
@@ -17,12 +19,8 @@ public class StaffController {
     private StaffRepository staffRepository;
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseTransfer Get(@PathVariable("id") String id) {
+    public Staff Get(@PathVariable("id") String id) {
         Optional<Staff> staffOptional = staffRepository.findById(id);
-        if (staffOptional.isPresent()) {
-            Staff staff = staffOptional.get();
-            return new ResponseTransfer(staff);
-        }
-        return new ResponseTransfer(404, "staff " + id + " not found");
+        return staffOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "staff " + id + " not found"));
     }
 }
