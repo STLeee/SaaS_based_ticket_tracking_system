@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.stleee.tts</groupId>
 	<artifactId>ticket_service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>ticket_service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>com.stleee.tts</groupId>
 			<artifactId>staff_service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
@@ -54,6 +54,10 @@
 				<configuration>
 					<to>
 						<image>docker.io/scottli/tts-p1-ticket-service</image>
+						<tags>
+							<tag>latest</tag>
+							<tag>${project.version}</tag>
+						</tags>
 					</to>
 				</configuration>
 			</plugin>
