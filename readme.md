@@ -185,6 +185,12 @@ mvnw compile jib:build
 
 ## Deploy
 
+### Add namespace
+```
+kubectl create namespace tts-p1
+kubectl label namespace tts-p1 istio-injection=enabled
+```
+
 ### Kubernetes on Docker
 
 ```
