@@ -8,14 +8,15 @@ import java.util.Optional;
 import com.stleee.tts.ticket_service.model.Ticket;
 import com.stleee.tts.ticket_service.repository.TicketRepository;
 import com.stleee.tts.staff_service.model.Staff;
+import com.stleee.tts.staff_service.model.Token;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
-@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/api/bug")
 public class BugController {
@@ -104,9 +105,15 @@ public class BugController {
 
     private Optional<Staff> VerifyStaff(String bearerToken) {
         if (!bearerToken.startsWith("Bearer ")) return Optional.empty();
-        String token = bearerToken.split(" ")[1];
+        String tokenID = bearerToken.split(" ")[1];
         RestTemplate restTemplate = new RestTemplate();
-        Staff staff = restTemplate.getForObject("http://staff:3000/token/{token}", Staff.class, token);
-        return Optional.of(staff);
+        try {
+            Token token = restTemplate.getForObject("http://staff:3000/api/token/{id}", Token.class, tokenID);
+            Staff staff = restTemplate.getForObject("http://staff:3000/api/staff/{id}", Staff.class, token.getUID());
+            return Optional.of(staff);
+        } catch(RestClientResponseException e) {
+            if (HttpStatus.valueOf(e.getRawStatusCode()).series() == HttpStatus.Series.CLIENT_ERROR) return Optional.empty();
+            else throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "internal server error");
+        }
     }
 }

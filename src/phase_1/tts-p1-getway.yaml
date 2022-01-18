@@ -33,3 +33,15 @@ spec:
         host: ticket
         port:
           number: 3000
+    corsPolicy:
+      allowOrigin:
+        - "*"
+      allowMethods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+      allowHeaders:
+        - authorization
+        - content-type
