@@ -160,25 +160,11 @@ npm run serve
 
 ### Phase I
 
-#### Compile staff service
+#### Build staff/ticket service
 
 ```
-cd src\phase_1\staff_service
-mvnw compile jib:build
-```
-
-#### Install staff service
-
-```
-cd src\phase_1\staff_service
-mvnw clean install
-```
-
-#### Compile ticket service
-
-```
-cd src\phase_1\ticket_service
-mvnw compile jib:build
+cd src\phase_1
+mvnw package jib:build
 ```
 
 ----------------------------------------------------------------------------------------------------

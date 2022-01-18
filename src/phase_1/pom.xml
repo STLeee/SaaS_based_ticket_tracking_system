@@ -9,19 +9,21 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.stleee.tts</groupId>
-	<artifactId>ticket_service</artifactId>
-	<version>1.0.1</version>
-	<name>ticket_service</name>
+	<artifactId>tts-p1</artifactId>
+	<version>1.0.0</version>
+	<name>tts-p1</name>
 	<description>Demo project for Spring Boot</description>
+	<packaging>pom</packaging>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
 
+	<modules>
+		<module>staff-service</module>
+		<module>ticket-service</module>
+	</modules>
+
+	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -32,13 +34,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>com.stleee.tts</groupId>
-			<artifactId>staff_service</artifactId>
-			<version>1.0.0</version>
-			<scope>compile</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -46,6 +41,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>repackage</id>
+						<configuration>
+							<classifier>exec</classifier>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
@@ -53,7 +56,7 @@
 				<version>3.1.4</version>
 				<configuration>
 					<to>
-						<image>docker.io/scottli/tts-p1-ticket-service</image>
+						<image>docker.io/scottli/tts-p1-${project.artifactId}</image>
 						<tags>
 							<tag>latest</tag>
 							<tag>${project.version}</tag>
