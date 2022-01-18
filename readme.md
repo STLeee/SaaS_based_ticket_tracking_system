@@ -171,8 +171,14 @@ mvnw package jib:build
 ```
 cd src\phase_1\frontend
 npm run build
-docker build -t scottli/tts-p1-frontend:latest .
-docker push scottli/tts-p1-frontend:latest
+docker build -t scottli/tts-p1-frontend:1.0.0 .
+
+# push to Docker Hub
+docker push scottli/tts-p1-frontend:1.0.0
+
+# push to Google Artifact Registry
+docker tag scottli/tts-p1-frontend:1.0.0 asia-east1-docker.pkg.dev/ticket-tracking-system/tts-p1/frontend:1.0.0
+docker push asia-east1-docker.pkg.dev/ticket-tracking-system/tts-p1/frontend:1.0.0
 ```
 
 ----------------------------------------------------------------------------------------------------
