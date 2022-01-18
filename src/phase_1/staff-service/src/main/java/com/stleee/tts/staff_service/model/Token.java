@@ -1,5 +1,7 @@
 package com.stleee.tts.staff_service.model;
 
+import java.util.UUID;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,6 +11,11 @@ public class Token {
     @Id
     private String id;
     private String uid;
+
+    public Token () {
+        this.id = UUID.randomUUID().toString().replaceAll("-", "") + UUID.randomUUID().toString().replaceAll("-", "");
+        this.uid = "";
+    }
 
     public Token (String id, String uid) {
         this.id = id;

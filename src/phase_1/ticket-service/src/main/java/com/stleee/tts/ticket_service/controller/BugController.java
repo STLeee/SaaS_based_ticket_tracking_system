@@ -10,6 +10,8 @@ import com.stleee.tts.ticket_service.repository.TicketRepository;
 import com.stleee.tts.staff_service.model.Staff;
 import com.stleee.tts.staff_service.model.Token;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,15 +25,23 @@ public class BugController {
 
     @Autowired
     private TicketRepository ticketRepository;
+
+    private static final Logger LOGGER = LogManager.getLogger(BugController.class);
     
     @RequestMapping(method = RequestMethod.GET)
     public List<Ticket> Get() {
+        LOGGER.trace("[GET] bug");
+        
+        // process
         List<Ticket> tickets = ticketRepository.findByType(Ticket.Type.Bug);
         return tickets;
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Ticket Get(@PathVariable("id") String id) {
+        LOGGER.trace("[GET] bug: " + id);
+        
+        // process
         Optional<Ticket> ticketOptional = ticketRepository.findById(id);
         Ticket ticket = ticketOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "bug " + id + " not found"));
         if (ticket.getType() != Ticket.Type.Bug) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "bug " + id + " not found");
@@ -39,7 +49,9 @@ public class BugController {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public Ticket Post(@RequestHeader("Authorization") String bearerToken, @RequestBody Ticket newTicket) {
+    public Ticket POST(@RequestHeader("Authorization") String bearerToken, @RequestBody Ticket newTicket) {
+        LOGGER.trace("[POST] bug");
+        
         // verify staff
         Optional<Staff> staffOptional = VerifyStaff(bearerToken);
         Staff.Type staffType = staffOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized")).getType();
@@ -51,7 +63,9 @@ public class BugController {
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Ticket Put(@RequestHeader("Authorization") String bearerToken, @PathVariable("id") String id, @RequestBody Ticket newTicket) {
+    public Ticket PUT(@RequestHeader("Authorization") String bearerToken, @PathVariable("id") String id, @RequestBody Ticket newTicket) {
+        LOGGER.trace("[PUT] bug: " + id);
+        
         // verify staff
         Optional<Staff> staffOptional = VerifyStaff(bearerToken);
         Staff.Type staffType = staffOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized")).getType();
@@ -69,6 +83,8 @@ public class BugController {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Ticket DELETE(@RequestHeader("Authorization") String bearerToken, @PathVariable("id") String id) {
+        LOGGER.trace("[DELETE] bug: " + id);
+
         // verify staff
         Optional<Staff> staffOptional = VerifyStaff(bearerToken);
         Staff.Type staffType = staffOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized")).getType();
@@ -84,6 +100,8 @@ public class BugController {
     
     @RequestMapping(value = "/{id}/{var}", method = RequestMethod.PATCH)
     public Ticket PATCH(@RequestHeader("Authorization") String bearerToken, @PathVariable("id") String id, @PathVariable("var") String var, @RequestBody Ticket newTicket) {
+        LOGGER.trace("[PATCH] bug: " + id + ", var: " + var);
+
         switch (var) {
         case "status":
             // verify staff
@@ -104,14 +122,23 @@ public class BugController {
     }
 
     private Optional<Staff> VerifyStaff(String bearerToken) {
+        LOGGER.trace("verify staff: " + bearerToken);
         if (!bearerToken.startsWith("Bearer ")) return Optional.empty();
         String tokenID = bearerToken.split(" ")[1];
         RestTemplate restTemplate = new RestTemplate();
+        Token token;
         try {
-            Token token = restTemplate.getForObject("http://staff:3000/api/token/{id}", Token.class, tokenID);
+            token = restTemplate.getForObject("http://staff:3000/api/token/{id}", Token.class, tokenID);
+        } catch(RestClientResponseException e) {
+            LOGGER.error("get token error: " + e);
+            if (HttpStatus.valueOf(e.getRawStatusCode()).series() == HttpStatus.Series.CLIENT_ERROR) return Optional.empty();
+            else throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "internal server error");
+        }
+        try {
             Staff staff = restTemplate.getForObject("http://staff:3000/api/staff/{id}", Staff.class, token.getUID());
             return Optional.of(staff);
         } catch(RestClientResponseException e) {
+            LOGGER.error("get staff error: " + e);
             if (HttpStatus.valueOf(e.getRawStatusCode()).series() == HttpStatus.Series.CLIENT_ERROR) return Optional.empty();
             else throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "internal server error");
         }

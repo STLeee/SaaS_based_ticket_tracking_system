@@ -1,5 +1,7 @@
 package com.stleee.tts.staff_service.model;
 
+import java.util.UUID;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,6 +15,11 @@ public class Staff {
     @Id
     private String id;
     private Type type;
+
+    public Staff () {
+        this.id = UUID.randomUUID().toString().replaceAll("-", "");
+        this.type = Type.QA;
+    }
 
     public Staff (String id, Type type) {
         this.id = id;

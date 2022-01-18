@@ -48,7 +48,7 @@ spec:
       serviceAccountName: staff
       containers:
       - name: tts-p1-staff-service
-        image: docker.io/scottli/tts-p1-staff-service:1.0.1
+        image: docker.io/scottli/tts-p1-staff-service:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
@@ -103,7 +103,7 @@ spec:
       serviceAccountName: ticket
       containers:
       - name: tts-p1-ticket-service
-        image: docker.io/scottli/tts-p1-ticket-service:1.0.3
+        image: docker.io/scottli/tts-p1-ticket-service:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000

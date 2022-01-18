@@ -1,5 +1,7 @@
 package com.stleee.tts.ticket_service.model;
 
+import java.time.Instant;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -19,6 +21,14 @@ public class Ticket {
     private Status status;
     private String summary;
     private String description;
+
+    public Ticket () {
+        this.id = Instant.now().toString();
+        this.type = Type.Bug;
+        this.status = Status.Opened;
+        this.summary = "";
+        this.description = "";
+    }
 
     public Ticket (String id, Type type, String summary, String description) {
         this.id = id;
