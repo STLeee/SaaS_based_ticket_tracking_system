@@ -167,6 +167,14 @@ cd src\phase_1
 mvnw package jib:build
 ```
 
+#### Build frontend
+```
+cd src\phase_1\frontend
+npm run build
+docker build -t scottli/tts-p1-frontend:latest .
+docker push scottli/tts-p1-frontend:latest
+```
+
 ----------------------------------------------------------------------------------------------------
 
 ## Deploy
