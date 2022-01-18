@@ -45,3 +45,11 @@ spec:
       allowHeaders:
         - authorization
         - content-type
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: frontend
+        port:
+          number: 80

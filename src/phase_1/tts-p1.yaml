@@ -49,7 +49,7 @@ spec:
       containers:
       - name: tts-p1-staff-service
         image: docker.io/scottli/tts-p1-staff-service:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
 ---
@@ -104,6 +104,51 @@ spec:
       containers:
       - name: tts-p1-ticket-service
         image: docker.io/scottli/tts-p1-ticket-service:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
+---
+##################################################################################################
+# front-end
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: tts-p1
+  labels:
+    app: tts-p1
+    service: frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: tts-p1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: tts-p1
+  labels:
+    app: tts-p1
+    service: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tts-p1
+  template:
+    metadata:
+      labels:
+        app: tts-p1
+        service: frontend
+    spec:
+      containers:
+      - name: tts-p1-frontend
+        image: docker.io/scottli/tts-p1-frontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
