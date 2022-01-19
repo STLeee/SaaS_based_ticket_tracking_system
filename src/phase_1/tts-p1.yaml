@@ -4,51 +4,46 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: staff
-  namespace: tts-p1
+  name: staff-service
   labels:
-    app: tts-p1
-    service: staff
+    app: staff-service
+    service: staff-service
 spec:
   type: NodePort
   ports:
   - port: 3000
     name: http
   selector:
-    app: tts-p1
+    app: staff-service
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: staff
-  namespace: tts-p1
+  name: tts-p1-staff-service
   labels:
-    app: tts-p1
-    account: staff
+    account: staff-service
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: staff
-  namespace: tts-p1
+  name: staff-service
   labels:
-    app: tts-p1
-    service: staff
+    app: staff-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tts-p1
+      app: staff-service
   template:
     metadata:
       labels:
-        app: tts-p1
-        service: staff
+        app: staff-service
     spec:
-      serviceAccountName: staff
+      serviceAccountName: tts-p1-staff-service
       containers:
       - name: tts-p1-staff-service
         image: docker.io/scottli/tts-p1-staff-service:latest
+        # image: asia-east1-docker.pkg.dev/ticket-tracking-system/tts-p1/staff-service:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -59,51 +54,46 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ticket
-  namespace: tts-p1
+  name: ticket-service
   labels:
-    app: tts-p1
-    service: ticket
+    app: ticket-service
+    service: ticket-service
 spec:
   type: NodePort
   ports:
   - port: 3000
     name: http
   selector:
-    app: tts-p1
+    app: ticket-service
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: ticket
-  namespace: tts-p1
+  name: tts-p1-ticket-service
   labels:
-    app: tts-p1
-    account: ticket
+    account: ticket-service
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ticket
-  namespace: tts-p1
+  name: ticket-service
   labels:
-    app: tts-p1
-    service: ticket
+    app: ticket-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tts-p1
+      app: ticket-service
   template:
     metadata:
       labels:
-        app: tts-p1
-        service: ticket
+        app: ticket-service
     spec:
-      serviceAccountName: ticket
+      serviceAccountName: tts-p1-ticket-service
       containers:
       - name: tts-p1-ticket-service
         image: docker.io/scottli/tts-p1-ticket-service:latest
+        # image: asia-east1-docker.pkg.dev/ticket-tracking-system/tts-p1/ticket-service:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -115,9 +105,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend
-  namespace: tts-p1
   labels:
-    app: tts-p1
+    app: frontend
     service: frontend
 spec:
   type: NodePort
@@ -125,30 +114,28 @@ spec:
   - port: 80
     name: http
   selector:
-    app: tts-p1
+    app: frontend
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: tts-p1
   labels:
-    app: tts-p1
-    service: frontend
+    app: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tts-p1
+      app: frontend
   template:
     metadata:
       labels:
-        app: tts-p1
-        service: frontend
+        app: frontend
     spec:
       containers:
       - name: tts-p1-frontend
         image: docker.io/scottli/tts-p1-frontend:latest
+        # image: asia-east1-docker.pkg.dev/ticket-tracking-system/tts-p1/frontend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80

@@ -128,14 +128,14 @@ public class BugController {
         RestTemplate restTemplate = new RestTemplate();
         Token token;
         try {
-            token = restTemplate.getForObject("http://staff:3000/api/token/{id}", Token.class, tokenID);
+            token = restTemplate.getForObject("http://staff-service:3000/api/token/{id}", Token.class, tokenID);
         } catch(RestClientResponseException e) {
             LOGGER.error("get token error: " + e);
             if (HttpStatus.valueOf(e.getRawStatusCode()).series() == HttpStatus.Series.CLIENT_ERROR) return Optional.empty();
             else throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "internal server error");
         }
         try {
-            Staff staff = restTemplate.getForObject("http://staff:3000/api/staff/{id}", Staff.class, token.getUID());
+            Staff staff = restTemplate.getForObject("http://staff-service:3000/api/staff/{id}", Staff.class, token.getUID());
             return Optional.of(staff);
         } catch(RestClientResponseException e) {
             LOGGER.error("get staff error: " + e);

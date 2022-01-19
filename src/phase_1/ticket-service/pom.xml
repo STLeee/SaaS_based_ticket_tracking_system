@@ -8,7 +8,7 @@
 		<version>1.0.0</version>
 	</parent>
 	<artifactId>ticket-service</artifactId>
-	<version>1.0.4</version>
+	<version>1.0.5</version>
 	<name>ticket-service</name>
 	<description>Demo project for Spring Boot</description>
 	<dependencies>

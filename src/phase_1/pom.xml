@@ -60,19 +60,19 @@
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>3.1.4</version>
 				<configuration>
-					<!-- <to>
+					<to>
 						<image>docker.io/scottli/tts-p1-${project.artifactId}</image>
 						<tags>
 							<tag>latest</tag>
 							<tag>${project.version}</tag>
 						</tags>
-					</to> -->
-					<to>
+					</to>
+					<!-- <to>
 						<image>asia-east1-docker.pkg.dev/ticket-tracking-system/tts-p1/${project.artifactId}</image>
 						<tags>
 							<tag>${project.version}</tag>
 						</tags>
-					</to>
+					</to> -->
 				</configuration>
 			</plugin>
 		</plugins>

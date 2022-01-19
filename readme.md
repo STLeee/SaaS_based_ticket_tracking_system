@@ -195,6 +195,6 @@ kubectl label namespace tts-p1 istio-injection=enabled
 
 ```
 cd src\phase_1
-kubectl apply -f tts-p1.yaml 
-kubectl apply -f tts-p1-getway.yaml
+kubectl apply -n tts-p1 -f tts-p1.yaml 
+kubectl apply -n tts-p1 -f tts-p1-getway.yaml
 ```
