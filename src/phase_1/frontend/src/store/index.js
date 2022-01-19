@@ -7,7 +7,7 @@ const store = new Vuex.Store({
   state: {
     isLoading: false,
     staffType: 'QA',
-    apiIP: '127.0.0.1',
+    apiIP: location.hostname,
     apiPort: '80',
   },
   getters: {
