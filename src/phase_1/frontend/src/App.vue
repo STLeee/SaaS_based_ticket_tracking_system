@@ -77,7 +77,6 @@ export default {
       this.$store.dispatch('setStaffType', type)
     },
     setAPIIP (ip) {
-      console.log(ip)
       this.$store.dispatch('setAPIIP', ip)
     },
     setAPIPort (port) {
